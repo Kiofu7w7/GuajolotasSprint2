@@ -1,0 +1,48 @@
+body{
+    height: 100vh;
+}
+
+ul::before,
+ul::after {
+    content: none !important;
+}
+
+.ant-menu-item-selected span{
+    color: #FA4A0C;
+}
+
+.ant-menu-item-selected::after{
+    border-bottom-color: #FA4A0C !important;
+}
+
+.ant-menu-item-active::after {
+    border-bottom-color: #FA4A0C !important;
+}
+
+.DivPopUp {
+    position: fixed;
+    top: 0;
+    right: -100vw;
+    width: 100%;
+    height: 100vh;
+    z-index: 2;
+    background-color: white;
+    opacity: 1;
+    transition: right 0.3s ease-in-out;
+    overflow: auto;
+}
+
+.ant-carousel .slick-slide {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.imagenCarucel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 166px !important;
+    height: 166px !important;
+    object-fit: contain;
+}
