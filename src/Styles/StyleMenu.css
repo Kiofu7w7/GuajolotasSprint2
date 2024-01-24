@@ -46,3 +46,8 @@ ul::after {
     height: 166px !important;
     object-fit: contain;
 }
+
+.ant-modal-footer{
+    display: flex;
+    flex-direction: column;
+}

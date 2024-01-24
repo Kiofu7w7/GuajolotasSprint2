@@ -16,6 +16,7 @@ import {
 import { Carousel, Checkbox, Menu } from "antd";
 import "../Styles/StyleMenu.css"
 import useProducts from "../Hooks/useProducts";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
 
@@ -62,6 +63,13 @@ function Home() {
     setIsChecked(!isChecked);
   };
 
+  //SEARCH NAVIGATE
+
+  const navigate = useNavigate();
+  const navegarSerach = () => {
+    navigate("/search")
+  }
+
   //RETURN
 
   return (
@@ -80,7 +88,7 @@ function Home() {
             Nada como una Guajolota para empezar el día
           </h1>
         </div>
-        <SearchDiv style={{ marginBottom: 20 }}>
+        <SearchDiv onClick={() => {navegarSerach()}} style={{ marginBottom: 20 }}>
           <SearchOutlined />
           <SearchInput placeholder="Sabor de guajolota, bebida..." />
         </SearchDiv>

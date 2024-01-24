@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ButtonAS, CartItemText, CartPriceText, CartTotalDiv, DivButtonAS, ImagenProducto, NoCartItemsIcon, TextButtonAS, TitlePages } from '../Helpers/styledComponets';
+import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { ButtonAS, CartItemText, CartPriceText, CartTotalDiv, DivButtonAS, DivContadorCart, ImagenProducto, NoCartItemsIcon, TextButtonAS, TitlePages } from '../Helpers/styledComponets';
 import useUser from '../Hooks/useUser';
+import { Modal } from 'antd';
 
 function Cart() {
 
@@ -11,6 +13,38 @@ function Cart() {
   cartItems.map((a, index) => total += a.precio * productNumbers[index])
 
   const navigate = useNavigate();
+
+  //MODAL
+  const [open, setOpen] = useState(false);
+  const [dataProdcuto, setDataProducto] = useState()
+  const [dataProdcutoCant, setDataProductoCant] = useState()
+  const showModal = (item, cant) => {
+    setOpen(true);
+    setDataProducto(item)
+    setDataProductoCant(cant)
+    setContCarrito(parseInt(cant))
+  };
+  const handleOk = (e) => {
+    console.log(e)
+    setOpen(false);
+  };
+  const handleCancel = (e) => {
+    console.log(e);
+    setOpen(false);
+  };
+
+  const [contCarrito, setContCarrito] = useState(1);
+
+  const handlePlusCarrito = () => {
+    setContCarrito(contCarrito + 1)
+  }
+
+  const handleMinusCarrito = () => {
+    if(contCarrito !== 1){
+      setContCarrito(contCarrito - 1);
+    }
+  };
+
 
   return (
     <div>
@@ -38,7 +72,7 @@ function Cart() {
             alignItems: "center",
           }}
         >
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", cursor:"pointer" }}>
             {cartItems.map((item, index) => (
               <div
                 style={{
@@ -47,6 +81,7 @@ function Cart() {
                   justifyContent: "space-between",
                   alignContent: "center",
                 }}
+                onClick={()=>showModal(item, productNumbers[index])}
               >
                 <div style={{ display: "flex", marginLeft: "20px" }}>
                   <div
@@ -90,7 +125,7 @@ function Cart() {
                     marginRight: 20,
                   }}
                 >
-                  ${item.precio * productNumbers[index]} MXN
+                  ${item.precio * contCarrito} MXN
                 </CartPriceText>
               </div>
             ))}
@@ -105,6 +140,40 @@ function Cart() {
               <TextButtonAS>Pagar</TextButtonAS>
             </ButtonAS>
           </DivButtonAS>
+
+          <Modal
+          open={open}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="Actualizar"
+          okButtonProps={{ style: { order: "-1", margin: 0, color: "#F6F6F9", border: "none",
+          backgroundColor: "#FA4A0C", borderRadius: 40, padding: "12px 24px", height: "auto", fontSize: 17,
+          fontWeight: 600 } }}
+          cancelText="Cancelar"
+          cancelButtonProps={{ style: { margin: 0, color: "#FA4A0C", border: "none",
+          backgroundColor: "transparent", borderRadius: 40, padding: "12px 24px", height: "auto", fontSize: 17,
+          fontWeight: 600 } }}
+          style={{ width: 312 }}>
+            <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", }}>
+              <img src={dataProdcuto?.imagen} alt='' style={{width: 80, height:80, objectFit: "contain", backgroundImage: `url(${dataProdcuto?.plato})`,
+              backgroundRepeat: "no-repeat", backgroundPosition: "center"}}>
+              </img>
+              <TextButtonAS style={{ color: "#0D0D0D"}}>{dataProdcuto?.nombre}</TextButtonAS>
+              <CartPriceText
+                    style={{
+                      display: "flex",
+                      alignItems: "center"
+                    }}
+                  >
+                    ${dataProdcuto?.precio * contCarrito} MXN
+              </CartPriceText>
+              <DivContadorCart>
+                  <MinusCircleOutlined onClick={() => handleMinusCarrito()} />
+                  <h3 style={{ margin: 0 }}>{contCarrito}</h3>
+                  <PlusCircleOutlined onClick={() => handlePlusCarrito()} />
+                </DivContadorCart>
+            </div>
+          </Modal>
         </div>
       ) : (
         <div
