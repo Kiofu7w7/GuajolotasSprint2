@@ -258,9 +258,9 @@ function Home() {
             </div>
             <section>
               <h3>Guajolocombo</h3>
-              <p>
-                Selecciona la bebida que más te guste y disfruta de tu desayuno.
-              </p>
+                <p>
+                  Selecciona la bebida que más te guste y disfruta de tu desayuno.
+                </p>
               <div style={{ display: "flex", marginBottom: 100 }}>
                 {data &&
                 data.length > 0 &&
